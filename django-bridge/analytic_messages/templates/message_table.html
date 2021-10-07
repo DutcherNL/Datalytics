@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Code</th>
+            <th scope="col">duration</th>
+            <th scope="col">Avg value</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for message in messages %}
+            <tr class="">
+                <th class="">
+                    {{ message.id }}
+                </th>
+                <td class="">
+                    <a href="{% url 'info' id=message.id %}">
+                        {{ message.code }}
+                    </a>
+                </td>
+                <td class="">
+                    {{ message.duration }}
+                </td>
+                <td class="">
+                    {{ message.avg_value }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

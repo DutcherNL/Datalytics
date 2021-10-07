@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}graduation{% endblock %}</title>
+
+    <!-- Css -->
+    {% block css %}
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    {% endblock css %}
+
+    <!-- Js -->
+    {% block js %}
+    {% endblock js %}
+</head>
+<body class="">
+    <div class="d-flex">
+        <div class="d-flex bg-primary" style="width: 400px; height: 100vh;">
+            <div class="row w-100 m-2">
+                <div class="col-12" style="height: 3em;">
+
+
+                </div>
+
+
+                <div class="col-12">
+                    <a class="btn btn-block btn-light"
+                       href="{% url 'overview' %}">
+                        Messages
+                    </a>
+                </div>
+                <div class="col-12">
+                    <a class="btn btn-block btn-light"
+                       href="{% url 'datatable' %}">
+                        Data table
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="container my-3">
+            {% block content %}
+
+            {% endblock %}
+        </div>
+    </div>
+
+
+
+
+    {% block js_bottom %}
+    {# A block for javascript codes that will trigger after the entire page has been loaded in. #}
+    {# Ideal for when you want to activate e.g. bootstrap popovers #}
+
+    {% endblock js_bottom %}
+</body>
+</html>

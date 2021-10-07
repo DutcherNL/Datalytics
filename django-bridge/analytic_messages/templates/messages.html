@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load data_communication_tags %}
+
+{% block content %}
+    <div class="row">
+        {% for message in messages %}
+            <div class="col-12 col-md-6">
+                <div class="card mb-4 border-danger">
+                    <div class="card-body">
+                        <h5 class="card-title">Warning: {{ message.code|communicate_title }}</h5>
+                        <p class="card-text">
+                            {{ message.code|communicate_short_text }}
+                        </p>
+                        <a href="{% url 'info' id=message.id %}" class="btn btn-primary">More information</a>
+                    </div>
+                </div>
+
+            </div>
+
+        {% endfor %}
+    </div>
+
+
+{% endblock %}
