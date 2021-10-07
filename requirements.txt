@@ -1,3 +1,4 @@
 pyside2 == 5.15.2
 pyqtgraph == 0.12.2
 numpy == 1.21.2
+markdown == 3.3.4
