@@ -16,12 +16,9 @@ class CodeDataCommunication:
         if short_text:
             data[self.SHORT_TEXT] = short_text
 
-        print(data)
-
         self.texts[code] =  data
 
     def get_readable(self, code, data_type):
-        print(self.texts)
         return self.texts.get(code, {}).get(data_type, '-NOT REGISTERED-')
 
 

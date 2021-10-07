@@ -8,7 +8,15 @@
                 <div class="card mb-4 border-danger">
                     <div class="card-body">
                         <h5 class="card-title">Warning: {{ message.code|communicate_title }}</h5>
-                        <p class="card-text">
+                        <h6 class="card-subtitle text-muted">
+
+                            {% if message.is_still_active %}
+                                Detected since {{ message.dt_start }}
+                            {% else %}
+                                Detected from {{ message.dt_start }} till {{ message.dt_last_update }}
+                            {% endif %}
+                        </h6>
+                        <p class="card-text mt-3">
                             {{ message.code|communicate_short_text }}
                         </p>
                         <a href="{% url 'info' id=message.id %}" class="btn btn-primary">More information</a>
