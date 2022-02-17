@@ -1,0 +1,24 @@
+{% load data_communication_tags %}
+
+
+    <div class="card mb-4 border-danger">
+        <div class="card-body">
+            <h5 class="card-title">Warning: {{ message.code|communicate_title }}</h5>
+            {% if is_active %}
+
+            {% endif %}
+            {% if message.is_still_active %}
+                <h6 class="card-subtitle text-danger">
+                    Active since {{ message.dt_start }}
+                </h6>
+            {% else %}
+                <h6 class="card-subtitle text-muted">
+                    Detected from {{ message.dt_start }} till {{ message.dt_last_update }}
+                </h6>
+            {% endif %}
+            <p class="card-text mt-3">
+                {{ message.code|communicate_short_text }}
+            </p>
+            <a href="{% url 'info' id=message.id %}" class="btn btn-primary">More information</a>
+        </div>
+    </div>

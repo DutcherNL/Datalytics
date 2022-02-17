@@ -11,40 +11,71 @@
         <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     {% endblock css %}
 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
     <!-- Js -->
     {% block js %}
     {% endblock js %}
 </head>
 <body class="">
-    <div class="d-flex">
-        <div class="d-flex bg-primary" style="width: 400px; height: 100vh;">
-            <div class="row w-100 m-2">
-                <div class="col-12" style="height: 3em;">
-
-
-                </div>
-
-
-                <div class="col-12">
-                    <a class="btn btn-block btn-light"
-                       href="{% url 'overview' %}">
-                        Messages
-                    </a>
-                </div>
-                <div class="col-12">
-                    <a class="btn btn-block btn-light"
-                       href="{% url 'datatable' %}">
-                        Data table
-                    </a>
-                </div>
-
-            </div>
-
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+            <i class="fas fa-diagnoses"></i> Home climate Analyser
+        </a>
+        <div class="navbar-nav navbar-right">
+            <a class="btn btn-light">
+                <i class="fas fa-cogs"></i> Settings
+            </a>
         </div>
-        <div class="container my-3">
-            {% block content %}
 
-            {% endblock %}
+    </nav>
+    <div class="d-flex">
+{#        <div class="col-auto d-flex bg-primary" style="height: 100vh;">#}
+{#            <div class=" w-100 m-2">#}
+{#                <div class="" style="height: 3em;">#}
+{#                    <a class="btn btn-light" style="border-radius: 100%;"#}
+{#                        href="{% url 'overview' %}">#}
+{#                        <i class="fas fa-diagnoses"></i> HCA#}
+{#                    </a>#}
+{#                </div>#}
+{##}
+{#                <div class="my-2">#}
+{#                    <a class="btn btn-light">#}
+{#                        <i class="fas fa-exclamation-triangle"></i> Alerts <span class="badge badge-warning">1</span>#}
+{#                    </a>#}
+{#                </div>#}
+{##}
+{#                <div class="my-3">#}
+{#                    <a class="btn btn-light">#}
+{#                        <i class="fas fa-cogs"></i> Settings#}
+{#                    </a>#}
+{#                </div>#}
+{##}
+{#                <!--#}
+{#                <div class="col-12">#}
+{#                    <a class="btn btn-block btn-light"#}
+{#                       href="{% url 'overview' %}">#}
+{#                        Messages#}
+{#                    </a>#}
+{#                </div>#}
+{#                <div class="col-12">#}
+{#                    <a class="btn btn-block btn-light"#}
+{#                       href="{% url 'datatable' %}">#}
+{#                        Data table#}
+{#                    </a>#}
+{#                </div>#}
+{#                -->#}
+{##}
+{#            </div>#}
+{##}
+{#        </div>#}
+        <div class="col">
+            <div class="container my-3">
+                {% block content %}
+
+                {% endblock %}
+            </div>
         </div>
     </div>
 

@@ -36,3 +36,9 @@ data_info.register(
     'High temperature detected',
     'The heat has exceeded the maximum advised bound.'
 )
+
+data_info.register(
+    'heat_lowerlimit_exceeded',
+    'Low temperature detected',
+    'The heat has exceeded the minimum advised bound.'
+)
