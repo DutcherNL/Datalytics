@@ -11,13 +11,17 @@
 {% endif %}
 
 </h3>
+<a href="{% url "room_history" room_id=room.id %}">
+    <i class="fas fa-history"></i> View history
+</a>
 
-{% for message in room.messages.all %}
+<div>
+{% for message in climate_messages %}
     <div class="col-12 col-md-6">
-        {% if not message.viewing.is_viewed %}
-            {% render_message message %}
-        {% endif %}
+        {% render_message message dismissable=True %}
     </div>
 {% empty %}
     There are no new warnings
 {% endfor %}
+
+</div>

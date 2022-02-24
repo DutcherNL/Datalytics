@@ -2,7 +2,7 @@ from datetime import timedelta
 
 from django.contrib import messages
 from django.http.response import HttpResponseRedirect
-from django.views.generic import ListView, TemplateView, FormView
+from django.views.generic import ListView, TemplateView, FormView, DetailView
 from django.template.loader import get_template, TemplateDoesNotExist
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
@@ -95,7 +95,7 @@ class MessageDismissFormView(FormView):
         )
 
     def form_invalid(self, form):
-        messages.danger(self.request, _('An error occured while dismissing the message'))
+        messages.error(self.request, _('An error occured while dismissing the message'))
         return HttpResponseRedirect(
             reverse('overview')
         )
@@ -105,3 +105,10 @@ class MessageDismissFormView(FormView):
         return HttpResponseRedirect(
             reverse('overview')
         )
+
+
+class RoomHistoryView(DetailView):
+    model = Room
+    pk_url_kwarg = 'room_id'
+    template_name = "room_history.html"
+    context_object_name = 'room'

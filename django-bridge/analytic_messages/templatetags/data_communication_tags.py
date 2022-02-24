@@ -15,14 +15,16 @@ def communicate_short_text(code):
 @register.inclusion_tag("room_state_snippet.html", takes_context=False)
 def render_room_state(room):
     return {
-        'room': room
+        'room': room,
+        'climate_messages': room.messages.filter(viewing__is_viewed=False)
+
     }
 
 @register.inclusion_tag("messages/snippet_message_block.html", takes_context=False)
-def render_message(message):
+def render_message(message, dismissable=False):
     return {
         'message': message,
-        'is_dismissible': not message.is_still_active(),
+        'is_dismissible': not message.is_still_active() and dismissable,
     }
 
 @register.filter
