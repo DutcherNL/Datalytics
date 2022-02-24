@@ -19,6 +19,17 @@
             <p class="card-text mt-3">
                 {{ message.code|communicate_short_text }}
             </p>
-            <a href="{% url 'info' id=message.id %}" class="btn btn-primary">More information</a>
+            <div class="d-flex">
+                <a href="{% url 'info' id=message.id %}" class="btn btn-primary">More information</a>
+
+                {% if is_dismissible %}
+                    <form method="post" action="{% url "dismiss" id=message.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-secondary">
+                            Dismiss
+                        </button>
+                    </form>
+                {% endif %}
+            </div>
         </div>
     </div>

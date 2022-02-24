@@ -21,7 +21,8 @@ def render_room_state(room):
 @register.inclusion_tag("messages/snippet_message_block.html", takes_context=False)
 def render_message(message):
     return {
-        'message': message
+        'message': message,
+        'is_dismissible': not message.is_still_active(),
     }
 
 @register.filter
