@@ -20,16 +20,20 @@
                 {{ message.code|communicate_short_text }}
             </p>
             <div class="d-flex">
-                <a href="{% url 'info' id=message.id %}" class="btn btn-primary">More information</a>
+                <a href="{% url 'info' id=message.id %}" class="btn btn-primary">Meer informatie</a>
 
                 {% if is_dismissible %}
-                    <form method="post" action="{% url "dismiss" id=message.id %}">
+                    <form method="post" action="{% url "dismiss" id=message.id %}"
+                          id="dismiss_form_{{ message.id }}">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-outline-secondary">
-                            Dismiss
-                        </button>
+
                     </form>
                 {% endif %}
             </div>
+            <button type="submit" class="btn btn-outline-secondary"
+                style="position:absolute; right: 2px; top: 2px;"
+                form="dismiss_form_{{ message.id }}">
+                x
+            </button>
         </div>
     </div>

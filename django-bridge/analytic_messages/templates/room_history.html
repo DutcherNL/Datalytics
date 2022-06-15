@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 {% load data_communication_tags %}
+{% load info_tags %}
 
 {% block content %}
     <h3>{{ room }}</h3>
     <p>
-        Functie: Normal room
+        Functie: {{ room.get_type_display }}
     </p>
     <table class="table">
         <thead>
@@ -38,21 +39,13 @@
             <div>
                 Active meldingen
             </div>
-            {% for message in room.messages.filter_active %}
-                <div class="col-12 col-md-6">
-                    {% render_message message %}
-                </div>
-            {% endfor %}
+            {% render_messages_by_type room.messages.all %}
         {% endif %}
         {% if room.messages.filter_inactive %}
             <div>
                 Oude meldingen
             </div>
-            {% for message in room.messages.filter_inactive %}
-                <div class="col-12 col-md-6">
-                    {% render_message message %}
-                </div>
-            {% endfor %}
+            {% render_messages_by_type room.messages.all %}
         {% endif %}
     {% endif %}
 

@@ -16,10 +16,13 @@ class CodeDataCommunication:
         if short_text:
             data[self.SHORT_TEXT] = short_text
 
-        self.texts[code] =  data
+        self.texts[code] = data
 
     def get_readable(self, code, data_type):
         return self.texts.get(code, {}).get(data_type, '-NOT REGISTERED-')
+
+    def get_registered_codes(self):
+        return self.texts.keys()
 
 
 data_info = CodeDataCommunication()

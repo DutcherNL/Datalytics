@@ -4,9 +4,38 @@ from django.db import models
 from django.utils import timezone
 
 
+class RoomTypes:
+    max_code_length = 5
+
+    class Normal:
+        code = 'BASIC'
+        name = 'Neutraal'
+
+    class Bathroom:
+        code = 'BATH'
+        name = 'Badkamer'
+
+    class Workroom:
+        code = 'WORK'
+        name = 'Werkkamer'
+
+    types = [Normal, Bathroom, Workroom]
+
+    @classmethod
+    def get_types(cls):
+        return [(data_type.code, data_type.name) for data_type in cls.types]
+
+    @classmethod
+    def get_room_type(cls, measuremnt_type):
+        for data_type in cls.types:
+            if measuremnt_type == data_type.code:
+                return data_type
+        return None
+
 
 class Room(models.Model):
     name = models.CharField(max_length=120)
+    type = models.CharField(max_length=RoomTypes.max_code_length, choices=RoomTypes.get_types())
 
     class Meta:
         db_table = 'rooms'
@@ -16,6 +45,7 @@ class Room(models.Model):
 
 
 class MeasurementTypes:
+    max_code_length = 4
 
     class Temp:
         code = 'TEMP'
@@ -52,7 +82,7 @@ class MeasurementTypes:
 class Measurement(models.Model):
     value = models.DecimalField(decimal_places=2, max_digits=8)
     dt_last_update = models.DateTimeField(null=True)
-    type = models.CharField(max_length=4, choices=MeasurementTypes.get_types())
+    type = models.CharField(max_length=MeasurementTypes.max_code_length, choices=MeasurementTypes.get_types())
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     danger_level = models.IntegerField(choices=[
         (0, 'safe'),
@@ -76,10 +106,7 @@ class MessageManager(models.Manager):
 
     def filter_active(self):
         threshold_time = timezone.now() - self.active_time_delta
-        print(threshold_time)
-        a = self.filter(dt_last_update__lt=threshold_time)
-        print(a)
-        return a
+        return self.filter(dt_last_update__lt=threshold_time)
 
     def filter_inactive(self):
         threshold_time = timezone.now() - self.active_time_delta
