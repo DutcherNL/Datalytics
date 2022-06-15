@@ -86,7 +86,7 @@ WSGI_APPLICATION = 'djangodatalytics.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, '../datalytics/db.sqlite'),
+        'NAME': os.path.join(BASE_DIR, '../datalytics/grad_db.sqlite'),
     }
 }
 
@@ -113,7 +113,7 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'nl-nl'
 
 TIME_ZONE = 'UTC'
 

@@ -33,12 +33,12 @@ data_info.register(
 
 data_info.register(
     'heat_upperlimit_exceeded',
-    'High temperature detected',
-    'The heat has exceeded the maximum advised bound.'
+    'Hoge temperatuur gedetecteerd',
+    'De temperatuur is hoger dan aanbevolen waarde.'
 )
 
 data_info.register(
     'heat_lowerlimit_exceeded',
-    'Low temperature detected',
-    'The heat has exceeded the minimum advised bound.'
+    'Lage temperatuur gedetecteerd',
+    'De temperatuur is lager dan aanbevolen waarde.'
 )

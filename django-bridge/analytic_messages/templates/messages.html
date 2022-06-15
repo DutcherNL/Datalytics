@@ -2,15 +2,10 @@
 {% load data_communication_tags %}
 
 {% block content %}
-    {% for room in rooms_new %}
-        <h3>{{ room }}</h3>
-        {% for meas in room.measurement_set.all %}
-            <p>{{ meas }}</p>
-        {% endfor %}
-    {% endfor %}
-
     {% for roomstate in rooms %}
+        <div class="my-3">
         {% render_room_state roomstate %}
+        </div>
     {% endfor %}
 
 {% endblock %}

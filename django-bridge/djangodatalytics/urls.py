@@ -14,11 +14,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path, include
-
-from analytic_messages.views import MessageTableView, MessageInfoView
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('', include('analytic_messages.urls')),
+    path('start/', TemplateView.as_view(template_name='welcome_screen.html')),
     # path('', MessageTableView.as_view(), name='datatable'),
     # path('messages/', MessageOverview.as_view(), name='overview'),
     # path('message/<int:id>/', MessageInfoView.as_view(), name='info'),

@@ -4,14 +4,14 @@
 {% block content %}
     <h3>{{ room }}</h3>
     <p>
-        Function: Normal room
+        Functie: Normal room
     </p>
     <table class="table">
         <thead>
             <tr>
-                <th>Measuremenent</th>
-                <th>Value</th>
-                <th> Last updated</th>
+                <th>Meting</th>
+                <th>Waarde</th>
+                <th>Laatste update</th>
             </tr>
         </thead>
         {% for meas in room.measurement_set.all %}
@@ -29,13 +29,31 @@
         {% endfor %}
     </table>
 
-    <h4>Alerts</h4>
-    {% for message in room.messages.all %}
-        <div class="col-12 col-md-6">
-            {% render_message message %}
-        </div>
-    {% empty %}
-        There have been no alerts for  this space
-    {% endfor %}
+    <h4>Waarschuwingen</h4>
+    {% if not room.messages.exists %}
+        Er zijn nog geen problemen gedetecteerd voor deze ruimte.
+        Zodra we wat een probleem detecteren laten we het weten.
+    {% else %}
+        {% if room.messages.filter_active %}
+            <div>
+                Active meldingen
+            </div>
+            {% for message in room.messages.filter_active %}
+                <div class="col-12 col-md-6">
+                    {% render_message message %}
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% if room.messages.filter_inactive %}
+            <div>
+                Oude meldingen
+            </div>
+            {% for message in room.messages.filter_inactive %}
+                <div class="col-12 col-md-6">
+                    {% render_message message %}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
 
 {% endblock %}

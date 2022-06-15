@@ -71,6 +71,21 @@ class Measurement(models.Model):
         return f'{value}{self.get_unit()}'
 
 
+class MessageManager(models.Manager):
+    active_time_delta = timedelta(days=1)
+
+    def filter_active(self):
+        threshold_time = timezone.now() - self.active_time_delta
+        print(threshold_time)
+        a = self.filter(dt_last_update__lt=threshold_time)
+        print(a)
+        return a
+
+    def filter_inactive(self):
+        threshold_time = timezone.now() - self.active_time_delta
+        return self.filter(dt_last_update__gt=threshold_time)
+
+
 class ClimateMessage(models.Model):
     code = models.CharField(max_length=120, default="", blank=True, null=True)
     room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='messages', null=True)
@@ -79,6 +94,7 @@ class ClimateMessage(models.Model):
     duration = models.CharField(max_length=120, default="", blank=True, null=True)
     avg_value = models.CharField(max_length=120, default="", blank=True, null=True)
 
+    objects = MessageManager()
 
     class Meta:
         db_table = 'messages'
@@ -88,6 +104,7 @@ class ClimateMessage(models.Model):
         recent_delta = timedelta(hours=3)
 
         return self.dt_last_update + recent_delta >= timezone.now()
+
 
 class MessageViewing(models.Model):
     message = models.OneToOneField(ClimateMessage, on_delete=models.CASCADE, related_name='viewing')
