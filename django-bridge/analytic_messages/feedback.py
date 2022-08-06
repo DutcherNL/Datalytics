@@ -45,3 +45,9 @@ data_info.register(
     'Lage temperatuur gedetecteerd',
     'De temperatuur is lager dan aanbevolen waarde.'
 )
+
+data_info.register(
+    'upper_humidity_exceeded',
+    'Hoge luchtvochtigheid gedetecteerd',
+    'Luchtvochtigheid heeft langdurig een hoge waarde.'
+)

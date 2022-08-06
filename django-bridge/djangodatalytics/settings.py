@@ -73,6 +73,9 @@ TEMPLATES = [
                 'django.template.loaders.filesystem.Loader',
                 'analytic_messages.backends.FileDirectoryMessageLoader'
             ],
+            # 'libraries': [
+            #     'analytic_messages.templatetags.msg_info_tags',
+            # ],
         }
     },
 ]

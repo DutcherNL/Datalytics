@@ -128,9 +128,11 @@ class ClimateMessage(models.Model):
         ordering = ['-dt_start']
 
     def is_still_active(self):
-        recent_delta = timedelta(hours=3)
+        return self.dt_last_update + MessageManager.active_time_delta >= timezone.now()
 
-        return self.dt_last_update + recent_delta >= timezone.now()
+    @property
+    def length(self):
+        return self.dt_last_update - self.dt_start
 
 
 class MessageViewing(models.Model):

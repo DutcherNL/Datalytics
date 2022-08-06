@@ -45,8 +45,6 @@ class MarkdownTemplate:
         context = Context(context, autoescape=True)
         rendered_markdown = self.template.render(context)
 
-        print(rendered_markdown)
-
         return mark_safe(markdown.markdown(rendered_markdown))
 
 
