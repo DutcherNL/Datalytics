@@ -57,6 +57,18 @@ class AnalyserFront:
                 else:
                     sensor.last_update = m['timestamp']
                     sensor.last_value = m['value']
+            # Load active messages and set them to the relevant analysers
+            msg_dict = {}
+            for msg in self.storage.messages.load_active_messages(room):
+                msg_dict[msg.code] = msg
+
+            for sensor in room.sensors.values():
+                for analyser in sensor.analysers:
+                    if analyser.code in msg_dict.keys():
+                        analyser.active_message = msg_dict.pop(analyser.code)
+            for key in msg_dict.keys():
+                print(f"Code {key} could not be attributed to the correct analyser upon launch.")
+
 
     def add_room(self, room_type, name, sensor_types=None):
         """

@@ -118,8 +118,8 @@ class ClimateMessage(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='messages', null=True)
     dt_start = models.DateTimeField(null=True)
     dt_last_update = models.DateTimeField(null=True)
-    duration = models.CharField(max_length=120, default="", blank=True, null=True)
     avg_value = models.CharField(max_length=120, default="", blank=True, null=True)
+    is_active = models.BooleanField(null=True)
 
     objects = MessageManager()
 
@@ -129,6 +129,10 @@ class ClimateMessage(models.Model):
 
     def is_still_active(self):
         return self.dt_last_update + MessageManager.active_time_delta >= timezone.now()
+
+    @property
+    def duration(self):
+        return self.length
 
     @property
     def length(self):

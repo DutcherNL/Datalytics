@@ -1,5 +1,5 @@
 from sqlalchemy import Table, Column
-from sqlalchemy.sql.sqltypes import Integer, String, DateTime, Float
+from sqlalchemy.sql.sqltypes import Integer, String, DateTime, Float, Boolean
 from sqlalchemy.schema import ForeignKey
 
 from datalytics.settings_controller import settings
@@ -15,12 +15,8 @@ class SQLTable:
             engine = settings.load('storage').interface.db_engine
 
         conn = engine.connect()
-        result = conn.execute(command)
-
-        # print(result)
+        conn.execute(command)
         conn.close()
-
-
 
     def _select(self, filter=None, engine=None):
         filter = filter or {}
@@ -48,25 +44,47 @@ class MessageTable(SQLTable):
         Column('room_id', Integer),
         Column('dt_start', DateTime),
         Column('dt_last_update', DateTime),
-        Column('duration', Float),
         Column('avg_value', Float),
+        Column('is_active', Boolean),
     ]
 
     def insert(self, message, engine=None):
         insert_command = self.table.insert().values(
-            id = message.id,
             code = message.code,
-            **message.message_vars
+            room_id = message.room.id,
+            dt_start= message.dt_start,
+            dt_last_update = message.dt_last_update,
+            avg_value = message.avg_value,
+            is_active = message.is_active,
         )
         self._execute(insert_command, engine)
+
+        # Get the id, this can not be done through returning() due to limitations of sqlalchemy and sqlite
+        # So we retrieve the instance instead through other attributes
+        result = self._select(filter=[
+            self.table.c.room_id == message.room.id,
+            self.table.c.code == message.code,
+            self.table.c.dt_start == message.dt_start,
+        ])
+        message.id = result[0]['id']
 
     def update(self, message, engine=None):
         msg_update = self.table.update().\
             where(self.table.c.id==message.id).\
             values(
-            **message.message_vars
+            dt_last_update = message.dt_last_update,
+            avg_value = message.avg_value,
+            is_active = message.is_active
         )
         self._execute(msg_update, engine)
+
+    def select_active_messages(self, room, engine):
+        """ Returns all active messages. Used as program start-up """
+        return self._select(filter=[
+            self.table.c.is_active == True,
+            self.table.c.room_id == room.id,
+        ], engine=engine)
+
 
 
 class RoomTable(SQLTable):
@@ -126,8 +144,6 @@ class MeasurementTable(SQLTable):
             dt_last_update=timestamp,
         )
         self._execute(msg_update, engine)
-
-        print(f"latest value: {value} on {timestamp}")
 
     def select_for_room(self, room, engine=None):
         """ Returns measurement value entries for a given room """

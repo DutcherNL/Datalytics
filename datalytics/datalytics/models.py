@@ -45,7 +45,7 @@ class Room:
     def add_sensor(self, sensor_type):
         """ Adds a sensor of the given type to the room """
         if sensor_type in self.sensors.keys():
-            raise KeyError("A sensor with the given parameters was already defined for this room")
+                raise KeyError("A sensor with the given parameters was already defined for this room")
 
         add_analysers = room_types[self.room_type].get('local_analysers', None)
         self.sensors[sensor_type] = Sensor(sensor_type, add_analysers=add_analysers)

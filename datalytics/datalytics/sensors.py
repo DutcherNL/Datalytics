@@ -1,5 +1,5 @@
 import datetime
-from .analysers import *
+from datalytics.analysis.analysers import *
 from datalytics.settings_controller import settings
 
 

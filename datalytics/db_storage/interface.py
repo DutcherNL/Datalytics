@@ -1,4 +1,5 @@
 import warnings
+from datetime import datetime
 
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.exc import IntegrityError
@@ -7,10 +8,10 @@ from .models import MessageTable, RoomTable, MeasurementTable
 from datalytics.storage import MessageStorageInterface, RoomStorageInterface, MeasurementStorageInterface
 from datalytics.settings_controller import settings
 from datalytics.models import Room
+from datalytics.analysis.messages import AlertMessage
+
 
 class DBStorageMessageInterface(MessageStorageInterface):
-    msg_table = None
-
     def __init__(self, db_engine, metadata):
         self.db_engine = db_engine
         self.msg_table = MessageTable(metadata)
@@ -23,12 +24,27 @@ class DBStorageMessageInterface(MessageStorageInterface):
             if not fail_silently:
                 raise
 
-    def update(self, message, create_if_nonexistent=False):
+    def update(self, message):
         """ Updates an alertive message """
-        if create_if_nonexistent:
-            warnings.warn(f"{self.__class__.__name__} does not support creation for non-existent")
-
         self.msg_table.update(message, self.db_engine)
+
+    def load_active_messages(self, room):
+        """ Returns active messages of a room """
+        msg_list = []
+        for msg in self.msg_table.select_active_messages(room, self.db_engine):
+            message = AlertMessage(
+                code = msg['code'],
+                room = room,
+                dt_start = msg['dt_start'],
+                dt_last_update = msg['dt_last_update'],
+                avg_value = float(msg['avg_value']),
+                id = msg['id'],
+            )
+            msg_list.append(
+                message
+            )
+        return msg_list
+
 
 class DBStorageMeasurementInterface(MeasurementStorageInterface):
     def __init__(self, db_engine, metadata):
@@ -56,7 +72,6 @@ class DBStorageMeasurementInterface(MeasurementStorageInterface):
         for m in measurements:
             m['timestamp'] = m['dt_last_update']
         return measurements
-
 
 
 class DBStorageRoomInterface(RoomStorageInterface):
@@ -90,7 +105,6 @@ class DBStorageRoomInterface(RoomStorageInterface):
             rooms.append(room)
 
         return rooms
-
 
 
 class DBStorageInterface:
