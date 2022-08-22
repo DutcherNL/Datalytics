@@ -1,8 +1,9 @@
 class AlertMessage:
     code = None
     id = None
+    room_id = None
 
-    expected_vars = ['duration', 'avg_value']
+    expected_vars = ['dt_start', 'dt_last_update', 'avg_value']
 
     def __init__(self, code, id, **kwargs):
         self.code = code
@@ -18,11 +19,11 @@ class AlertMessage:
 class AlertInterface:
     """ An interface class for the storage and retieval of alerts """
 
-    def create_new_alert(self, code=None, **kwargs):
+    def create_new_alert(self, code=None, room=None, **kwargs):
         pass
 
-    def update_alert(self, code=None, timestamp=None, close=False):
+    def update_alert(self, code=None, room=None, timestamp=None, close=False):
         pass
 
-    def _close_alert(self, code=None, timestamp=None):
+    def _close_alert(self, code=None, room=None, timestamp=None):
         pass

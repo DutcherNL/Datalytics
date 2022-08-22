@@ -1,6 +1,9 @@
-from datalytics.datalytics.data_storage.models import ShortTermAnalyser, IndoorTemperatureAnalyser, HumphreyTemperatureAnalyser
-from datalytics.datalytics.data_storage.data_unpackers import TupleDataUnpacker
+from datalytics.data_analysis.models import ShortTermAnalyser, IndoorTemperatureAnalyser, HumphreyTemperatureAnalyser
+from datalytics.data_analysis.data_unpackers import TupleDataUnpacker
 
+from datalytics.settings_controller import settings
+
+from datalytics.models import Room
 
 class DataAnalyseInterface:
     unpacker_class = None
@@ -20,6 +23,68 @@ class DataAnalyseInterface:
 
         for analyser in analysers:
             analyser.update(*unpacked_data)
+
+
+class AnalyserFront:
+
+    rooms = None
+    highest_id = 0
+
+    def __init__(self):
+        self.rooms = {}
+
+        # prep storage
+        self.storage = settings.load('storage').interface
+        self._load_rooms()
+
+    def _load_rooms(self):
+        for room in self.storage.rooms.load_all():
+            self.highest_id = max(self.highest_id, room.id)
+            self.rooms[str(room.id)] = room
+
+            # Load in the measurement values
+            measurements = self.storage.measurements.load_for_room(room)
+            for m in measurements:
+                try:
+                    sensor = room.add_sensor(m['type'])
+                except KeyError:
+                    # Duplicates encountered, for some reason. So take that into account.
+                    print(f"Duplicate measurement data has been detected on the server on {room.name} - {m['type']}")
+                    sensor = room.sensors[m['type']]
+                    if m['timestamp'] > sensor.last_update:
+                        sensor.last_update = m['timestamp']
+                        sensor.last_value = m['value']
+                else:
+                    sensor.last_update = m['timestamp']
+                    sensor.last_value = m['value']
+
+    def add_room(self, room_type, name, sensor_types=None):
+        """
+        Adds a room to the system
+        :param room_type: The type of room
+        :param name: The name of the room
+        :param sensor_types: The types of sensors active in the room
+        :return:
+        """
+        room = Room(room_type, name, initial_sensor_types=sensor_types)
+        new_id = self.highest_id + 1
+        room.id = new_id
+        self.rooms[str(new_id)] = room
+
+        self.storage.rooms.add(room)
+
+    def get_room(self, name=None, room_id=None) -> Room:
+        """ Returns the room with the given name or id """
+        assert not (name and room_id)
+        assert name or room_id
+        if name:
+            for room in self.rooms.values():
+                if room.name == name:
+                    return room
+            return None
+        else:
+            return self.rooms.get(str(room_id))
+
 
 
 class TempDataAnalyser(DataAnalyseInterface):

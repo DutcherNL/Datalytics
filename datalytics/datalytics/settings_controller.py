@@ -22,11 +22,39 @@ def get_setting(name):
 ################## ALERT STORAGE
 ##################
 
-alert_storage = importlib.import_module(get_setting('STORAGE'))
-try:
-    alert_storage = alert_storage.interface
-except AttributeError as e:
-    raise KeyError(
-        "The defined location for the warning storage interface was not found. Make sure the location initialises your class "
-        "object with the variable name 'interface'."
-    )
+# alert_storage = importlib.import_module(get_setting('STORAGE'))
+# try:
+#     alert_storage = alert_storage.interface
+# except AttributeError as e:
+#     raise KeyError(
+#         "The defined location for the warning storage interface was not found. Make sure the location initialises your class "
+#         "object with the variable name 'interface'."
+#     )
+
+
+class Settings:
+
+    def __init__(self):
+        self._lib = {}
+        self._loaded_lib = {}
+
+    def __getattr__(self, item: str):
+        """ Returns attribute from the settings. """
+        if item in self._lib.keys():
+            return self._lib[item]
+        else:
+            self._lib[item] = get_setting(item.upper())
+            return self._lib[item]
+
+    def load(self, item: str):
+        """ Load the library of a certain element """
+        if item in self._loaded_lib.keys():
+            return self._loaded_lib[item]
+        else:
+            self._loaded_lib[item] = importlib.import_module(getattr(self, item))
+            return self._loaded_lib[item]
+
+
+
+
+settings = Settings()

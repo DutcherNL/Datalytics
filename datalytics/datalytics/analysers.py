@@ -1,9 +1,11 @@
 from datalytics.data_analysis.thresholds import FixedThreshold, LinearThreshold
 
 
+class Analyser:
+    pass
 
 
-class ShortTermAnalyser:
+class ShortTermAnalyser(Analyser):
     is_upper_threshold = True
 
     # Logging data
@@ -40,13 +42,23 @@ class ShortTermAnalyser:
         self.active_timestamp = None
 
 
-class IndoorTemperatureAnalyser(ShortTermAnalyser):
+class UpperIndoorTemperatureAnalyser(ShortTermAnalyser):
     name = "Upper Temperature Limit Indoor"
     user_message_active = "Exceed 26°"
     user_message_complete = "Exceed {value}° for {duration}"
 
     def __init__(self):
-        super(IndoorTemperatureAnalyser, self).__init__(FixedThreshold(26))
+        super(UpperIndoorTemperatureAnalyser, self).__init__(FixedThreshold(26))
+
+
+class LowerIndoorTemperatureAnalyser(ShortTermAnalyser):
+    name = "Lower Temperature Limit Indoor"
+    user_message_active = "Exceed 16°"
+    user_message_complete = "Exceed {value}° for {duration}"
+    is_upper_threshold = False
+
+    def __init__(self):
+        super(LowerIndoorTemperatureAnalyser, self).__init__(FixedThreshold(16))
 
 
 class HumphreyTemperatureAnalyser(ShortTermAnalyser):
