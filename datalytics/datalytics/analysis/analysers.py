@@ -11,14 +11,14 @@ class Analyser:
 
 
 class ShortTermAnalyser(Analyser):
-    is_upper_threshold = True
+    threshold = None
     expire_time = timedelta(minutes=90)
 
     # Logging data
     name = None
 
     def __init__(self, threshold=None):
-        self.threshold = threshold
+        self.threshold = threshold or self.threshold
         self.active_message = None
 
     def update(self, value, timestamp, room):
@@ -73,31 +73,32 @@ class ShortTermAnalyser(Analyser):
                 self._deactivate_trigger()
 
 
-class UpperIndoorTemperatureAnalyser(ShortTermAnalyser):
-    name = "Upper Temperature Limit Indoor"
-    code = "Testcode-upper"
-    user_message_active = "Exceed 26°"
-    user_message_complete = "Exceed {value}° for {duration}"
-
-    def __init__(self):
-        super(UpperIndoorTemperatureAnalyser, self).__init__(FixedThreshold(26))
+class UpperThresholdAnalyser(ShortTermAnalyser):
+    def check(self, value):
+        if value >= self.threshold.get_threshold_value():
+            return True
+        return False
 
 
-class LowerIndoorTemperatureAnalyser(ShortTermAnalyser):
-    name = "Lower Temperature Limit Indoor"
-    code = "Testcode-lower"
-    user_message_active = "Exceed 16°"
-    user_message_complete = "Exceed {value}° for {duration}"
-    is_upper_threshold = False
-
-    def __init__(self):
-        super(LowerIndoorTemperatureAnalyser, self).__init__(FixedThreshold(16))
+class LowerThresholdAnalyser(ShortTermAnalyser):
+    def check(self, value):
+        if value <= self.threshold.get_threshold_value():
+            return True
+        return False
 
 
-class HumphreyTemperatureAnalyser(ShortTermAnalyser):
-    name = "Upper Temperature Limit Indoor"
-    user_message_active = "Exceed XX°"
-    user_message_complete = "Exceed {value}° for {duration}"
+class UpperIndoorTemperatureAnalyser(UpperThresholdAnalyser):
+    code = "heat_upperlimit_exceeded"
+    threshold = FixedThreshold(26)
+
+
+class LowerIndoorTemperatureAnalyser(LowerThresholdAnalyser):
+    code = "heat_lowerlimit_exceeded"
+    threshold = FixedThreshold(16)
+
+
+class HumphreyTemperatureAnalyser(UpperThresholdAnalyser):
+    code = "heat_upperlimit_humphrey_exceeded"
 
     def __init__(self, external_temperature_data_storage):
         super(HumphreyTemperatureAnalyser, self).__init__()
@@ -107,3 +108,32 @@ class HumphreyTemperatureAnalyser(ShortTermAnalyser):
         self.threshold.a = 0.53
         self.threshold.b = 13.8
 
+
+class UpperIndoorRHAnalyser(UpperThresholdAnalyser):
+    code = "rh_upperlimit_exceeded"
+    threshold = FixedThreshold(60)
+
+
+class LowerIndoorRHAnalyser(LowerThresholdAnalyser):
+    code = "rh_lowerlimit_exceeded"
+    threshold = FixedThreshold(25)
+
+
+class UpperIndoorCO2Analyser(UpperThresholdAnalyser):
+    code = "co2_baselimit_exceeded"
+    threshold = FixedThreshold(1000)
+
+
+class LowerIndoorCO2Analyser(UpperThresholdAnalyser):
+    code = "co2_dangerlimit_exceeded"
+    threshold = FixedThreshold(5000)
+
+
+class LowIndoorLuxAnalyser(LowerThresholdAnalyser):
+    code = "lux_minlimit_exceeded"
+    threshold = FixedThreshold(100)
+
+
+class HighIndoorLuxAnalyser(LowerThresholdAnalyser):
+    code = "lux_minlimit_exceeded"
+    threshold = FixedThreshold(500)

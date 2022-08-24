@@ -85,14 +85,22 @@ class AnalyserFront:
 
         self.storage.rooms.add(room)
 
-    def get_room(self, name=None, room_id=None) -> Room:
-        """ Returns the room with the given name or id """
+    def get_room(self, name=None, room_id=None, fall_back_as_id=False) -> Room:
+        """
+        Returns the room with the given name or id
+        :param name: The name of the room (room_id should be None)
+        :param room_id: The id  of the room (name should  be None)
+        :param fall_back_as_id: search id if name does not yield results
+        :return: The room or None
+        """
         assert not (name and room_id)
         assert name or room_id
         if name:
             for room in self.rooms.values():
                 if room.name == name:
                     return room
+            if fall_back_as_id:
+                return self.rooms.get(str(name))
             return None
         else:
             return self.rooms.get(str(room_id))

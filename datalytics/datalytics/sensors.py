@@ -1,6 +1,7 @@
 import datetime
 from datalytics.analysis.analysers import *
 from datalytics.settings_controller import settings
+import warnings
 
 
 sensor_types = {
@@ -9,14 +10,28 @@ sensor_types = {
         'unit': "degrees Celsius"
     },
     'HUMID': {
-        'local_analysers': [],
+        'local_analysers': [LowerIndoorRHAnalyser, UpperIndoorRHAnalyser],
         'unit': "relative humidity"
     },
     'CO2': {
-        'local_analysers': [],
+        'local_analysers': [LowerIndoorCO2Analyser, UpperIndoorCO2Analyser],
         'unit': 'ppm'
     },
+    'ILLUM': {
+        'local_analysers': [],
+        'unit': 'lux'
+    },
 }
+
+
+class InvalidSensorType(KeyError):
+    """ An exception declaring invalid sensor type """
+
+    def __init__(self, sensor_type):
+        self.type = type
+        message = f"Sensor type {sensor_type} is not defined. Be sure this sensor is any of the following types:" \
+                  f"{list(sensor_types.keys())} otherwise it will not work."
+        super(InvalidSensorType, self).__init__(message)
 
 
 class Sensor:
@@ -33,8 +48,7 @@ class Sensor:
         add_analysers = add_analysers or []
 
         if type not in sensor_types.keys():
-            raise KeyError(f"Sensor type {type} is not defined. Be sure this sensor is any of the following types:"
-                           f"{list(sensor_types.keys())} otherwise it will not work.")
+            raise InvalidSensorType(type)
         self.sensor_type = type
 
         # Create the analysers
@@ -60,10 +74,12 @@ class Sensor:
         timestamp = timestamp or datetime.datetime.now()
         if self.last_update is not None and timestamp < self.last_update:
             if force_analysis:
-                self.check_analysers(timestamp, value)
+                self.check_analysers(timestamp, value, room)
             else:
-                print("Measurement value was older than the latest update and shall not be processed. \n"
-                      "Enable force_update on the update action to force analysis anyway")
+                warnings.warn(
+                    "Measurement value was older than the latest update and shall not be processed. \n"
+                    "Enable force_update on the update action to force analysis anyway",
+                )
         else:
             self.check_analysers(timestamp, value, room)
             self._set_latest_value(value, timestamp, room)

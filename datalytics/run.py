@@ -5,6 +5,7 @@ from datetime import datetime
 
 # from datalytics import settings_controller
 from datalytics.interface import AnalyserFront
+from datalytics.sensors import InvalidSensorType
 
 # from datalytics.messaging.models import AlertMessage
 
@@ -22,26 +23,6 @@ def main(*args):
         )
         room = analyser.get_room("Living room")
         # room.update_sensor('TEMP', 21, None)
-
-    if "--upload-csv" in args:
-        try:
-            index = args.index("--upload-csv")
-            file_location = args[index+1]
-            room_id = args[index+2]
-        except IndexError:
-            print("When running upload csv, please define the path of the csv file followed by the id of the room "
-                  "it measures in")
-
-        if room_id == "new":
-            # Insert code to add a room
-            analyser.add_room(
-                "BASIC", "New test room",
-                ["TEMP"]
-            )
-
-        room = analyser.get_room(room_id=room_id)
-
-        upload_csv(file_path=file_location, room=room)
 
     if "--add-room" in args:
         try:
@@ -73,17 +54,26 @@ def main(*args):
         else:
             print(f"There is no room with the id {room_id}.")
 
-#     interface = settings_controller.alert_storage
-#
-#     interface.add_message(AlertMessage(
-#         code='test',
-#         id=1,
-#         duration='500',
-#         avg_value=26.2,
-#     ), fail_silently=True)
+    if "--upload-csv" in args:
+        try:
+            index = args.index("--upload-csv")
+            file_location = args[index+1]
+            room_id = args[index+2]
+        except IndexError:
+            print("When running upload csv, please define the path of the csv file followed by the id of the room "
+                  "it measures in")
+
+        try:
+            force_analysis = args[index+3] == '-force'
+        except IndexError:
+            force_analysis = False
+
+        room = analyser.get_room(name=room_id, fall_back_as_id=True)
+
+        upload_csv(file_path=file_location, room=room, force_analysis=force_analysis)
 
 
-def upload_csv(file_path, room):
+def upload_csv(file_path, room, force_analysis=False):
     if not os.path.exists(file_path):
         print(f"There is no file at the given path: \n {file_path} \n \n Make sure you have the right location."
               f"Also check your navigational dashes, it might differ depending on your opereating system.")
@@ -95,14 +85,31 @@ def upload_csv(file_path, room):
         # reading the CSV file
         csvFile = csv.DictReader(file)
 
+        errors = {}
+
+        line_counter = 0
         # displaying the contents of the CSV file
         for line in csvFile:
+            line_counter += 1
             dt, dt_translate_index = translate_dt(line['datetime'], dt_translate_index)
             line.pop('datetime')
 
             for key, value in line.items():
-                value = float(value)
-                room.update_sensor(sensor_type=key, value=value, timestamp=dt)
+                try:
+                    value = float(value)
+                    room.update_sensor(sensor_type=key, value=value, timestamp=dt, force_analysis=force_analysis)
+                except (ValueError, InvalidSensorType):
+                    errors[key]  = errors.get(key, 0) + 1
+
+            if line_counter % 10 == 0:
+                sys.stdout.write(f'\rProcessed line {line_counter}')
+                sys.stdout.flush()
+    print(f'\r Processed all {line_counter} lines')
+    if errors:
+        print(f'{len(errors.keys())} columns have failed during csv upload.')
+        for key, value in errors.items():
+            print(f"Column {key}  had {value} failed  entries")
+
 
 
 

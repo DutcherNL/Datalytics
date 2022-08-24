@@ -134,7 +134,6 @@ class MeasurementTable(SQLTable):
             dt_last_update=timestamp
         )
         self._execute(insert_command, engine)
-        self._execute(insert_command, engine)
 
     def update(self, value, room, sensor, timestamp, engine=None):
         msg_update = self.table.update(). \

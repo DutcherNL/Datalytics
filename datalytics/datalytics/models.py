@@ -1,5 +1,5 @@
 from .sensors import Sensor
-
+from .analysis import analysers
 
 """ Define the various room types. Some room types may have different requirements or triggers """
 room_types = {
@@ -14,6 +14,12 @@ room_types = {
     },
     'WORK': {
         'readable': 'Work room',
+        'local_analysers': {
+            'ILLUM': [
+                analysers.LowIndoorLuxAnalyser,
+                analysers.HighIndoorLuxAnalyser,
+            ]
+        }
     },
     'BED': {
         'readable': 'Bedroom',
@@ -47,7 +53,7 @@ class Room:
         if sensor_type in self.sensors.keys():
                 raise KeyError("A sensor with the given parameters was already defined for this room")
 
-        add_analysers = room_types[self.room_type].get('local_analysers', None)
+        add_analysers = room_types[self.room_type].get('local_analysers', {}).get(sensor_type, None)
         self.sensors[sensor_type] = Sensor(sensor_type, add_analysers=add_analysers)
         return self.sensors[sensor_type]
 

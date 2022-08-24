@@ -6,7 +6,7 @@ from testing_suite.data_screen import TestWindow
 from testing_suite.data_storage import DataStorage, TransformedDataStorage
 from testing_suite.data_fluctuators import CosineFluctuator
 
-from datalytics import TempDataAnalyser
+from datalytics.datalytics.interface import TempDataAnalyser
 
 class TestingSetup:
     name = "General testing"
