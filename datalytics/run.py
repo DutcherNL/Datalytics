@@ -22,7 +22,7 @@ def main(*args):
             ["TEMP"]
         )
         room = analyser.get_room("Living room")
-        # room.update_sensor('TEMP', 21, None)
+        room.update_sensor('TEMP', 21, None)
 
     if "--add-room" in args:
         try:

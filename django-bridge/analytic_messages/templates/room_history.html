@@ -5,14 +5,14 @@
 {% block content %}
     <h3>{{ room }}</h3>
     <p>
-        Functie: {{ room.get_type_display }}
+        Function: {{ room.get_type_display }}
     </p>
     <table class="table">
         <thead>
             <tr>
-                <th>Meting</th>
-                <th>Waarde</th>
-                <th>Laatste update</th>
+                <th>Measurement</th>
+                <th>Value</th>
+                <th>Latest update</th>
             </tr>
         </thead>
         {% for meas in room.measurement_set.all %}
@@ -30,20 +30,19 @@
         {% endfor %}
     </table>
 
-    <h4>Waarschuwingen</h4>
+    <h4>Warnings</h4>
     {% if not room.messages.exists %}
-        Er zijn nog geen problemen gedetecteerd voor deze ruimte.
-        Zodra we wat een probleem detecteren laten we het weten.
+        There have been no alerts detected in this space. As soon as one is detected, it will be stated here.
     {% else %}
         {% if room.messages.filter_active %}
             <div>
-                Active meldingen
+                Active alerts
             </div>
             {% render_messages_by_type room.messages.all %}
         {% endif %}
         {% if room.messages.filter_inactive %}
             <div>
-                Oude meldingen
+                Old alerts
             </div>
             {% render_messages_by_type room.messages.all %}
         {% endif %}

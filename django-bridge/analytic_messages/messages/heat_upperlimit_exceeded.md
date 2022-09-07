@@ -1,35 +1,17 @@
-# Maximum temperatuur overschreden
-De maximum temperatuur is over de maximum aanbevolen temperatuur van 26°C. Tussen
-{{ msg.dt_start }} en {{ msg.dt_last_update }} is een gemiddelde waarde van {{ msg.avg_value }} gemeten.
+The maximum recommanded temperature of 26°C has been exceeded between {{ dt_start }} and {{ dt_last_update }}. On average a temperature of {{ avg_value }}°C has been detected.
 
-## Wat kan het veroorzaken
-Een hoge binnentemperatuur is vaak het gevolg van warmte van buitenaf. Dit kan doordat warme lucht binnenkomt, maar
-ook doordat straling van de zon door ramen naar binnen komt. Ook kunnen warme buitenmuren ervoor zorgen dat warmte
-aan de binnenkant wordt doorgegeven.
+## What can cause it?
+A high indoor temperature is often the result of external energy entering the home. Either because hot air from the outside being ventilated into the home or because direct sunlight enters and heats up the home. Hot external walls can also ensure a steady flow of heat entering the home.
 
-## Wat kan ik er nu aan doen?
-Als de buitentemperatuur hoger is dan de temperatuur in de woning is het verstandig om ramen dicht te houden. Dit zorgt
-ervoor dat koele lucht binnen in de woning blijft. Gedurende warme periodes zoals hartje zomer is het verstandig
-om bij voorbaat overdag ramen en deuren gesloten te houden wanneer het buiten warmer is dan binnen. Wanneer het 
-s'avonds en s'nachts afkoelt is het aangeraden om juist alle ramen en eventueel deuren te openen zodat zoveel mogelijk van de
-binnen opgeslagen warmte naar buiten kan.
+## What can I do about it right away?
+When the outside air temperature is higher than the internal air temperature it is recommanded to keep windows closed. This can ensure that cool air remains in the home and hot air stays outside. During hot periods such as in the peak of summer it is recommanded to keep windows and doors closed during the day. During the night when the sun is down and the outside air is cooler, it is recommanded to open the windows and doors to ventilate the home and allowing the hotter air inside to be exchanged  with the cooler air outside.
 
-Het is ook verstandig om directe zonnenstraling in de woning te minderen. Als er ramen zijn die bij warmte zonlicht
-ontvangen, doe dan gordijnen or zonnenschermen aan die kant van de woning omlaag om directe zonnenstraling te minderen.
+During the day it is also recommanded to reduce direct sunlight in the home. If there are any windows receiving direct sunlight, make sure to close curtains or blinds at that side of the home to reduce the heat from solar radiation entering the living space.
 
-## Wat kan ik er later aan doen?
-Herhaalt het probleem zich? Het beter isoleren van uw woning helpt om de warmte die via muren of ramen binnenkomt te
-minderen. Dit is vooral het geval wanneer er nog enkel glas wordt gebruikt (dit kan het geval zijn bij oudere woningen)
+## What can I do about it on the long term?
+Does the problem prevail? Insulating the home can help reduce heat from entering through walls or glass windows. Do you still use single glass windows? (This can be the case at older residences) Replace them with double glazing or better as soon as possible.
 
-De grootste veroorzaker van warmte in woningen in de zomer is de zon. Direct zonlicht kan ervoor zorgen dat ruimtes 
-warmer worden dan de buitenlucht. Dit is vooral het geval wanneer de zon recht naar binnen schijnt. Het installeren
-van een zonnenscherm aan de zuid- of westkant van uw woning helpt dit te reduceren. Hierdoor zal, wanneer de zonnenschermen
-omlaag zijn, er minder warmte uw woning binnen komen en zal het dus comfortabeler zijn.
+The biggest cause of heat in homes in summer is the sun. Direct sunlight can heat up spaces higher than the external air temperature. Installing solar blinds at the south or west side of your home can severely reduce direct sunlight when the blinds are lowered. Reducing internal temperature and increasing comfort.
 
-Het is ook mogelijk om de binnentemperatuur te reduceren door het plaatsen van bomen en planten buiten uw woning.
-De schaduw van een boom kan ervoor zorgen dat er minder zon uw woning binnenkomt. Ook heeft beplanting zoals een klimop
-of een groen dak met mos-achtige beplanting een positieve bijdrage. Ook planten hebben namelijk een temperatuur regulatie
-en zullen bij warme temperaturen water later verdampen om af te koelen. Houd er dan wel rekening mee dat deze planten 
-voldoende bewaterd dienen te worden.
-Planten kunnen ook in uw woning een licht warmtebufferend effect hebben, al is het effect vrij weinig wanneer het slechts 
-enkele plantjes betreft.
+It’s also possible to reduce internal temperature by placing trees and shrubbery outside of your home. The shadow of a tree blocks the sun reducing temperatures of walls and windows. Plants such as ivy or green roofs containing mossy shrubbery can also have positive effects in reducing the temperature; plants themselves have a heat regulating process and shall evaporate water during hotter days. Due take into account to water these plants sufficiently during these times.
+Plants inside the home can also have a small temperature buffering effect, though it is relatively small when you have only one or two plants.

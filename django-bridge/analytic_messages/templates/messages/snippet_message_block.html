@@ -3,24 +3,24 @@
 
     <div class="card mb-4 border-danger">
         <div class="card-body">
-            <h5 class="card-title">Waarschuwing: {{ message.code|communicate_title }}</h5>
+            <h5 class="card-title">Warning: {{ message.code|communicate_title }}</h5>
             {% if is_active %}
 
             {% endif %}
             {% if message.is_still_active %}
                 <h6 class="card-subtitle text-danger">
-                    Actief sinds {{ message.dt_start }}
+                    Active since {{ message.dt_start }}
                 </h6>
             {% else %}
                 <h6 class="card-subtitle text-muted">
-                    Gedetecteerd van {{ message.dt_start }} tot {{ message.dt_last_update }}
+                    Detected from {{ message.dt_start }} till {{ message.dt_last_update }}
                 </h6>
             {% endif %}
             <p class="card-text mt-3">
                 {{ message.code|communicate_short_text }}
             </p>
             <div class="d-flex">
-                <a href="{% url 'info' id=message.id %}" class="btn btn-primary">Meer informatie</a>
+                <a href="{% url 'info' id=message.id %}" class="btn btn-primary">More information</a>
 
                 {% if is_dismissible %}
                     <form method="post" action="{% url "dismiss" id=message.id %}"
@@ -30,10 +30,12 @@
                     </form>
                 {% endif %}
             </div>
+            {% if is_dismissible %}
             <button type="submit" class="btn btn-outline-secondary"
                 style="position:absolute; right: 2px; top: 2px;"
                 form="dismiss_form_{{ message.id }}">
                 x
             </button>
+            {% endif %}
         </div>
     </div>

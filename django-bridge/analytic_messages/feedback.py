@@ -36,18 +36,48 @@ data_info.register(
 
 data_info.register(
     'heat_upperlimit_exceeded',
-    'Hoge temperatuur gedetecteerd',
-    'De temperatuur is hoger dan aanbevolen waarde.'
+    'High temperature detected',
+    'Temperature exceeds recommanded value.'
 )
 
 data_info.register(
     'heat_lowerlimit_exceeded',
-    'Lage temperatuur gedetecteerd',
-    'De temperatuur is lager dan aanbevolen waarde.'
+    'Low temperature detected',
+    'The temperature is lower than the recommended value.'
 )
 
 data_info.register(
-    'upper_humidity_exceeded',
-    'Hoge luchtvochtigheid gedetecteerd',
-    'Luchtvochtigheid heeft langdurig een hoge waarde.'
+    'rh_upperlimit_exceeded',
+    'High humidity detected',
+    'The relative humidity is higher than the recommended value.'
+)
+
+data_info.register(
+    'rh_lowerlimit_exceeded',
+    'Low humidity detected',
+    'The relative humidity is lower than the recommended value.'
+)
+
+data_info.register(
+    'rh_abs_lowerlimit_exceeded',
+    'Low humidity detected',
+    'The absolute humidity is lower than the recommended value.'
+)
+
+data_info.register(
+    'co2_baselimit_exceeded',
+    'High CO2 concentration detacted',
+    'The CO2 concentration is higher than the recommended value.'
+)
+
+data_info.register(
+    'co2_baselimit_exceeded',
+    'Dangerously high CO2 concentration detacted',
+    'The CO2 concentration is dangerously high. Ventilate the room now!.'
+)
+
+data_info.register(
+    'lux_500limit_exceeded',
+    'Non-ideal light instensity detected',
+    'The illuminance level is lower than the recommanded value for a work environment',
 )

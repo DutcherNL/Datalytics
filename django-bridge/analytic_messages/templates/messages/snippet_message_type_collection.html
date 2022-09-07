@@ -4,7 +4,7 @@
 {% for key, message_list in ordered_messages.items %}
 <div class="card mb-4 border-danger">
     <div class="card-body">
-        <h5 class="card-title">Waarschuwing: {{ key|communicate_title }}</h5>
+        <h5 class="card-title">Warning: {{ key|communicate_title }}</h5>
 
 
         {% for message in message_list %}
@@ -12,16 +12,16 @@
                 <div class="col py-2">
                 {% if message.is_still_active %}
                     <div class="card-subtitle text-danger">
-                        Actief sinds {{ message.dt_start }}
+                        Active since {{ message.dt_start }}
                     </div>
                 {% else %}
                     <div class="card-subtitle text-muted">
-                        Gedetecteerd van {{ message.dt_start }} tot {{ message.dt_last_update }}
+                        Detected from {{ message.dt_start }} till {{ message.dt_last_update }}
                     </div>
                 {% endif %}
                 </div>
                 <div class="col">
-                    <a href="{% url 'info' id=message.id %}" class="btn btn-primary btn-sm">Meer informatie</a>
+                    <a href="{% url 'info' id=message.id %}" class="btn btn-primary btn-sm">More information</a>
                 </div>
             </div>
 

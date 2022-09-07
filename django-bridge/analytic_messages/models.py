@@ -9,15 +9,15 @@ class RoomTypes:
 
     class Normal:
         code = 'BASIC'
-        name = 'Neutraal'
+        name = 'Neutral'
 
     class Bathroom:
         code = 'BATH'
-        name = 'Badkamer'
+        name = 'Bathroom'
 
     class Workroom:
         code = 'WORK'
-        name = 'Werkkamer'
+        name = 'Work room'
 
     types = [Normal, Bathroom, Workroom]
 
@@ -45,7 +45,7 @@ class Room(models.Model):
 
 
 class MeasurementTypes:
-    max_code_length = 4
+    max_code_length = 5
 
     class Temp:
         code = 'TEMP'
@@ -54,7 +54,7 @@ class MeasurementTypes:
         decimals = 1
 
     class Humidity:
-        code = 'HMD'
+        code = 'HUMID'
         name = 'Humidity'
         unit = '%'
         decimals = 0

@@ -1,0 +1,3 @@
+
+# Requirements for
+Django~=3.2.7
