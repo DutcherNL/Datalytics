@@ -89,7 +89,7 @@ WSGI_APPLICATION = 'djangodatalytics.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, '../datalytics/grad_db.sqlite'),
+        'NAME': os.path.join(BASE_DIR, '../datalytics/db.sqlite'),
     }
 }
 
