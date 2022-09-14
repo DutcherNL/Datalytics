@@ -44,12 +44,12 @@ class Sensor:
     last_update = None
     last_value = None
 
-    def __init__(self, type, add_analysers=None):
+    def __init__(self, sensor_type, add_analysers=None):
         add_analysers = add_analysers or []
 
-        if type not in sensor_types.keys():
-            raise InvalidSensorType(type)
-        self.sensor_type = type
+        if sensor_type not in sensor_types.keys():
+            raise InvalidSensorType(sensor_type)
+        self.sensor_type = sensor_type
 
         # Create the analysers
         self.analysers = []
@@ -104,3 +104,11 @@ class Sensor:
         """ Run the analysers to check for any potential errors """
         for analyser in self.analysers:
             analyser.update(timestamp=timestamp, value=value, room=room)
+
+    def has_active_analyser(self):
+        """ Whether there is an analyser who currently contains an issue """
+        for analyser in self.analysers:
+            if analyser.has_issue:
+                return True
+        return False
+

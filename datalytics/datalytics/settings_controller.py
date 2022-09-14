@@ -1,4 +1,5 @@
 import importlib
+import os
 
 from datalytics import default_settings
 # from datalytics import settings as local_settings
@@ -7,7 +8,8 @@ from datalytics import default_settings
 This section initiates certain settings in a more retrievable manner based on the actual settings
 """
 
-local_settings = 'datalytics.settings'
+
+local_settings = os.environ.get('DATALYTICS_SETTINGS', 'datalytics.settings')
 local_settings_lib = importlib.import_module(local_settings)
 
 def get_setting(name):

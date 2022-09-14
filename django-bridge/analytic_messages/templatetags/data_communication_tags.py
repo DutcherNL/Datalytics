@@ -16,7 +16,7 @@ def communicate_short_text(code):
 def render_room_state(room):
     return {
         'room': room,
-        'climate_messages': room.messages.filter(viewing__is_viewed=False)
+        'climate_messages': room.messages.exclude(viewing__is_viewed=True)
 
     }
 

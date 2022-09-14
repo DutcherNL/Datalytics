@@ -6,6 +6,7 @@ from datetime import datetime
 # from datalytics import settings_controller
 from datalytics.interface import AnalyserFront
 from datalytics.sensors import InvalidSensorType
+from datalytics.testing import run_tests
 
 # from datalytics.messaging.models import AlertMessage
 
@@ -13,6 +14,12 @@ analyser = AnalyserFront()
 
 
 def main(*args):
+
+    if "--test" in args:
+        run_tests()
+
+        # Don't do anything else
+        return
 
     if "--mock-build" in args:
         # interface = settings_controller.alert_storage

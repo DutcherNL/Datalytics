@@ -7,7 +7,10 @@ from .messages import AlertMessage
 
 
 class Analyser:
-    pass
+
+    @property
+    def has_issue(self):
+        return False
 
 
 class ShortTermAnalyser(Analyser):
@@ -20,6 +23,10 @@ class ShortTermAnalyser(Analyser):
     def __init__(self, threshold=None):
         self.threshold = threshold or self.threshold
         self.active_message = None
+
+    @property
+    def has_issue(self):
+        return self.active_message is not None
 
     def update(self, value, timestamp, room):
         """ Process an update of a new measurement """
@@ -121,12 +128,12 @@ class LowerIndoorRHAnalyser(LowerThresholdAnalyser):
 
 class UpperIndoorCO2Analyser(UpperThresholdAnalyser):
     code = "co2_baselimit_exceeded"
-    threshold = FixedThreshold(1000)
+    threshold = FixedThreshold(5000)
 
 
 class LowerIndoorCO2Analyser(UpperThresholdAnalyser):
     code = "co2_dangerlimit_exceeded"
-    threshold = FixedThreshold(5000)
+    threshold = FixedThreshold(1000)
 
 
 class LowIndoorLuxAnalyser(LowerThresholdAnalyser):

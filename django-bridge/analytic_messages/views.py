@@ -72,7 +72,12 @@ class MessageInfoView(TemplateView):
 
             return msg
 
-        return template.render()
+        return template.render(context={
+            'dt_start': message.dt_start,
+            'dt_last_update': message.dt_last_update,
+            'avg_value': message.avg_value,
+            'is_active': message.is_active,
+        })
 
 
 class MessageDismissFormView(FormView):

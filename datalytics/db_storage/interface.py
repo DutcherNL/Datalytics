@@ -79,7 +79,7 @@ class DBStorageRoomInterface(RoomStorageInterface):
         self.db_engine = db_engine
         self.room_table = RoomTable(metadata)
 
-    def add(self, room, fail_silently=False):
+    def add(self, room, fail_silently=True):
         """ Adds a alertive message """
         try:
             self.room_table.insert(room, self.db_engine)

@@ -85,6 +85,8 @@ class AnalyserFront:
 
         self.storage.rooms.add(room)
 
+        return room
+
     def get_room(self, name=None, room_id=None, fall_back_as_id=False) -> Room:
         """
         Returns the room with the given name or id

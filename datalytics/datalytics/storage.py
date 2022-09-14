@@ -11,7 +11,7 @@ class MessageStorageInterface:
     def update(self, message):
         """ Updates an alertive message """
 
-    def load(self):
+    def load_active_messages(self):
         """ Loads and returns all rooms """
 
 
@@ -22,7 +22,7 @@ class RoomStorageInterface:
     def update(self, room):
         """ Updates a room """
 
-    def load(self):
+    def load_all(self):
         """ Loads and returns all rooms """
 
 
@@ -33,7 +33,7 @@ class MeasurementStorageInterface:
     def update(self, measurement):
         """ Updates a measurement """
 
-    def load(self, room):
+    def load_for_room(self, room):
         """ Loads and returns all measurements for a given room """
 
 
@@ -41,3 +41,6 @@ class StorageInterface:
     messages = None
     rooms = None
     measurements = None
+
+
+interface = StorageInterface()
